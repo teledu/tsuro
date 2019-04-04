@@ -9,7 +9,7 @@ namespace Tsuro.Models
 
         public Card(string connections)
         {
-            _connections = connections;
+            _connections = connections.Trim();
         }
 
         public Dictionary<byte, byte> Connections
@@ -24,6 +24,22 @@ namespace Tsuro.Models
                     var end2 = byte.Parse(pair.Substring(1, 1));
                     dictionary.Add(end1, end2);
                     dictionary.Add(end2, end1);
+                }
+                return dictionary;
+            }
+        }
+
+        public Dictionary<byte, byte> UniqueConnections
+        {
+            get
+            {
+                var dictionary = new Dictionary<byte, byte>();
+                var pairs = _connections.SplitIntoPairs();
+                foreach (var pair in pairs)
+                {
+                    var end1 = byte.Parse(pair.Substring(0, 1));
+                    var end2 = byte.Parse(pair.Substring(1, 1));
+                    dictionary.Add(end1, end2);
                 }
                 return dictionary;
             }
